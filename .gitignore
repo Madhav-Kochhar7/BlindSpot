@@ -1,0 +1,39 @@
+# Environments
+.env
+backend/.env
+
+# Dependencies
+venv/
+node_modules/
+frontend/node_modules/
+.npm/
+
+# Database
+*.db
+backend/screener.db
+*.sqlite3
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+dist/
+build/
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Logs
+*.log
