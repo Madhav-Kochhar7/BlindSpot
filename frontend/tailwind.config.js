@@ -13,7 +13,7 @@ export default {
         },
         dashboard: {
           sidebar: "#111111", // Dark charcoal sidebar
-          bg: "#CACACA",      // Updated to requested grey
+          bg: "#FFE5D9",      // Updated to requested peach/beige
           card: "#ffffff",
         }
       },
