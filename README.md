@@ -4,7 +4,6 @@
 
 BlindSpot screens technical candidates by combining PII redaction, a dual-pipeline evaluation (a traditional ATS scorer next to an evidence-based AI reviewer), live GitHub portfolio verification, and EEOC compliance auditing. The goal is to judge candidates on verifiable work instead of pedigree.
 
-![BlindSpot Dashboard Overview](https://via.placeholder.com/1000x500.png?text=BlindSpot+Dashboard+Screenshot)
 
 ## Features
 
