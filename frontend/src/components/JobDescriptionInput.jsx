@@ -15,7 +15,7 @@ export default function JobDescriptionInput({ value, onChange }) {
         onChange={(e) => onChange(e.target.value)}
         placeholder="Paste the job description here..."
         rows={10}
-        className="w-full resize-y rounded-lg border border-slate-300 bg-white p-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+        className="w-full resize-y rounded-lg border border-slate-300 bg-transparent p-3 text-sm text-slate-800 shadow-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
       />
 
       <p className="text-xs text-slate-400">{wordCount} words</p>

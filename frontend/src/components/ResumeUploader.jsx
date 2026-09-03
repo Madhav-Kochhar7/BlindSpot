@@ -73,7 +73,7 @@ export default function ResumeUploader({ files, onFilesChange }) {
           {files.map((file, index) => (
             <li
               key={`${file.name}-${file.size}-${index}`}
-              className="flex items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm"
+              className="flex items-center justify-between rounded-md border border-slate-200 bg-transparent px-3 py-2 text-sm shadow-sm"
             >
               <span className="flex items-center gap-2 truncate text-slate-700">
                 <FileText className="h-4 w-4 shrink-0 text-brand-500" />

@@ -219,7 +219,7 @@ export default function App() {
         {/* ================================================================= */}
         {activeTab === "upload" && (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-indigo-100 bg-gradient-to-r from-indigo-50/70 via-white to-purple-50/50 p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="rounded-2xl border border-indigo-100 bg-gradient-to-r from-[#F1EDEE] to-[#F1EDEE] p-6 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-5 w-5 text-indigo-600" />
@@ -250,7 +250,7 @@ export default function App() {
 
             {/* Input Controls Grid */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col justify-between">
+              <div className="rounded-2xl border border-slate-200 bg-[#F1EDEE] p-6 shadow-sm flex flex-col justify-between">
                 <JobDescriptionInput
                   value={jobDescription}
                   onChange={setJobDescription}
@@ -268,13 +268,13 @@ export default function App() {
                 )}
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+              <div className="rounded-2xl border border-slate-200 bg-[#F1EDEE] p-6 shadow-sm">
                 <ResumeUploader files={files} onFilesChange={setFiles} />
               </div>
             </div>
 
             {/* Action Button & Status Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-[#F1EDEE] border border-slate-200 shadow-sm">
               <div className="flex items-center gap-3">
                 <button
                   type="button"
