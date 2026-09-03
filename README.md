@@ -1,84 +1,93 @@
-# Bias-Aware Resume Screener — Phase 1
+# BlindSpot
 
-A working prototype that accepts multiple PDF/DOCX resumes plus a job
-description, parses resume text on the backend, runs a basic keyword ATS
-matching algorithm, and shows a ranked candidate shortlist on a React
-frontend.
+**A bias-aware resume screening and HR governance platform**
 
-## Project structure
+BlindSpot screens technical candidates by combining PII redaction, a dual-pipeline evaluation (a traditional ATS scorer next to an evidence-based AI reviewer), live GitHub portfolio verification, and EEOC compliance auditing. The goal is to judge candidates on verifiable work instead of pedigree.
 
+![BlindSpot Dashboard Overview](https://via.placeholder.com/1000x500.png?text=BlindSpot+Dashboard+Screenshot)
+
+## Features
+
+### Phase 1: PII redaction
+
+Before evaluation, BlindSpot strips resumes of details that can trigger unconscious bias: candidate names, emails, phone numbers, and addresses; university and college names; and age indicators like graduation dates. GitHub and portfolio links stay in, since verifying real work is the point.
+
+### Phase 2: Dual-pipeline evaluation
+
+BlindSpot runs two scorers side by side. A traditional ATS scorer counts keyword matches against the job description. Blind Evidence AI, built on Gemini 3.6 Flash, reads the redacted resume and pulls out concrete evidence of technical skills, project complexity, domain context, and measurable outcomes.
+
+### Phase 3: Live GitHub portfolio verification (RAG)
+
+BlindSpot cross-checks resume claims against a candidate's actual GitHub activity. It extracts GitHub links from the resume, fetches live repository metadata (descriptions, stars, language breakdowns) via the GitHub REST API, and feeds that context into the LLM prompt so it can compare claims against real contributions.
+
+### Phase 4: EEOC four-fifths (80%) parity audit
+
+A compliance engine tracks the algorithm for systemic bias. It correlates anonymized selection rates against demographic data (gender, ethnicity, age) held in an isolated, governed database layer, and calculates the Adverse Impact Ratio as defined under EEOC UGESP 29 C.F.R. § 1607.4(D).
+
+### Phase 5: HR governance and reporting
+
+BlindSpot includes a governance console that keeps a human in the loop. Clicking any AI score shows the exact quote the LLM used to justify it. HR operators can override an AI or ATS rejection, but have to log a justification for compliance. The system can also export a landscape PDF audit report with an executive summary, parity metrics, and the full human-override audit trail.
+
+---
+
+## Technology stack
+
+**Frontend (client)**
+- React 18 / Vite
+- Tailwind CSS (custom "Promage" aesthetic, glassmorphism)
+- Lucide React icons
+- Hosted on Vercel
+
+**Backend (API and AI pipeline)**
+- Python 3.11 / FastAPI
+- Google Gemini API (`gemini-3.6-flash`) for LLM reasoning
+- GitHub REST API for live portfolio fetching
+- `reportlab` for PDF generation
+- Hosted on Render
+
+**Database and persistence**
+- Isolated SQLite (`screener.db`), separating candidate evaluation data from protected demographic identity data.
+
+---
+
+## Local development setup
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Madhav-Kochhar7/BlindSpot.git
+cd BlindSpot
 ```
-bias-aware-resume-screener/
-├── backend/
-│   ├── main.py           # FastAPI app + /api/upload-and-score endpoint
-│   ├── resume_parser.py  # PDF/DOCX text extraction
-│   ├── ats_scorer.py     # Keyword extraction + scoring
-│   └── requirements.txt
-└── frontend/
-    ├── package.json
-    ├── tailwind.config.js
-    ├── vite.config.ts
-    └── src/
-        ├── App.tsx
-        ├── types.ts
-        ├── api.ts
-        └── components/
-            ├── JobDescriptionInput.tsx
-            ├── ResumeUploader.tsx
-            └── CandidateTable.tsx
-```
 
-## Run the backend
-
+### 2. Backend setup
 ```bash
 cd backend
-python3 -m venv venv
-source venv/bin/hactivate        # Windows: venv\Scripts\activate
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+
+# Set up your environment variables
+echo "GEMINI_API_KEY=your_google_ai_key_here" > .env
+
+# Run the FastAPI server
+uvicorn main:app --reload --port 8000 --env-file .env
 ```
 
-The API will be live at `http://localhost:8000`. Interactive docs are at
-`http://localhost:8000/docs`.
-
-## Run the frontend
-
+### 3. Frontend setup
+Open a new terminal window.
 ```bash
 cd frontend
 npm install
-cp .env.example .env   # optional — defaults to http://localhost:8000 anyway
+
+# Set up your environment variables
+echo "VITE_API_URL=http://localhost:8000" > .env
+
+# Run the Vite dev server
 npm run dev
 ```
+Then open `http://localhost:5173` in your browser.
 
-The app will be live at `http://localhost:5173`.
+---
 
-## Using it
+## License
 
-1. Paste a job description into the left panel.
-2. Drag and drop (or browse for) one or more `.pdf`/`.docx` resumes.
-3. Click **Analyze Resumes**.
-4. Review the ranked shortlist: match %, matched keywords, and word count
-   per candidate.
-
-## How the Phase 1 scoring works
-
-- The job description is tokenized, common stopwords are filtered out, and
-  the top 25 most frequent remaining terms become the "job keywords."
-- Each resume is checked for whole-word (case-insensitive) matches against
-  that keyword list.
-- Score = `(matched keywords / total keywords) × 100`, rounded to 1 decimal.
-
-This is intentionally simple and fully transparent — every score is
-traceable to a visible list of matched/unmatched keywords, which will make
-it easier to audit for bias in later phases (e.g. checking whether
-scoring is being driven by demographic-correlated proxies rather than
-actual job-relevant skills).
-
-## Known Phase 1 limitations (by design — future phases)
-
-- No fairness/bias auditing yet — pure keyword ATS matching only.
-- No persistent database — results live in memory for the current backend
-  process (cleared on restart).
-- No PII redaction or name-blind scoring yet.
-- No synonym/stemming support (e.g. "manage" vs. "management" are treated
-  as different tokens).
+This project was built for Hackfest '26 organized by SAP and is open-sourced under the MIT License.
